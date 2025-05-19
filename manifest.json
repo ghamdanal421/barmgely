@@ -1,0 +1,31 @@
+{
+    "name": "barmgely",
+    "short_name": "برمجلي",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#acbbee",
+    "orientation": "portrait-primary",
+    "description": "شركة برمجية متخصصة في تصميم وبرمجة المواقع والتطبيقات بأحدث التقنيات",
+    "icons": [{
+            "src": "assets/images/manifest/icon-72x72.png",
+            "type": "image/png",
+            "sizes": "72x72"
+        },
+        {
+            "src": "assets/images/manifest/icon-96x96.png",
+            "sizes": "96x96",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/images/manifest/icon-128x128.png",
+            "sizes": "128x128",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/images/manifest/icon-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png"
+        }
+    ]
+}
