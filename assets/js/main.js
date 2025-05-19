@@ -556,24 +556,24 @@
 
 
 
-  $(document).ready(function() {
-      setTimeout(function (){
-        $.ajax({
-            type: 'GET',
-            url: 'get-api/self',
-            data: "",
-            dataType: 'json',
-            beforeSend: function() {
+//   $(document).ready(function() {
+//       setTimeout(function (){
+//         $.ajax({
+//             type: 'GET',
+//             url: 'get-api/self',
+//             data: "",
+//             dataType: 'json',
+//             beforeSend: function() {
              
-            },
-            success: function(response) {
-                if(response && response.location &&  response.location.calling_code && response.location.calling_code != ""){
-                 document.getElementById('calling_code').value = response.location.calling_code;
+//             },
+//             success: function(response) {
+//                 if(response && response.location &&  response.location.calling_code && response.location.calling_code != ""){
+//                  document.getElementById('calling_code').value = response.location.calling_code;
 
-                }
-            }
-        });
-      }, 1000);
+//                 }
+//             }
+//         });
+//       }, 1000);
         
 
-});
+// });
