@@ -531,49 +531,104 @@
     }),
       document
         .getElementById("sidebar")
-        .addEventListener("affix.top.stickySidebar", function () {}),
-      setTimeout(function () {
-        document.querySelectorAll(".lizzy-loud-img").forEach(function (e) {
-          e.setAttribute("data-error", 1),
-            (e.src = e.getAttribute("data-src")),
-            (e.onload = function () {
-              e.parentElement.classList.add("loading");
-            }),
-            (e.onerror = function () {
-              parseInt(this.getAttribute("data-error")) < 10 &&
-                (this.setAttribute(
-                  "data-error",
-                  parseInt(this.getAttribute("data-error")) + 1
-                ),
-                (this.src = e.getAttribute("data-src")),
-                (this.onload = function () {
-                  this.parentElement.classList.add("loading");
-                }));
-            });
-        });
-      }, 1e3);
+        .addEventListener("affix.top.stickySidebar", function () {});
+ 
   });
 
 
 
-//   $(document).ready(function() {
-//       setTimeout(function (){
-//         $.ajax({
-//             type: 'GET',
-//             url: 'get-api/self',
-//             data: "",
-//             dataType: 'json',
-//             beforeSend: function() {
+  $(document).ready(function() {
+      setTimeout(function (){
+        $.ajax({
+            type: 'GET',
+            url: 'get-api/self',
+            data: "",
+            dataType: 'json',
+            beforeSend: function() {
              
-//             },
-//             success: function(response) {
-//                 if(response && response.location &&  response.location.calling_code && response.location.calling_code != ""){
-//                  document.getElementById('calling_code').value = response.location.calling_code;
+            },
+            success: function(response) {
+                if(response && response.location &&  response.location.calling_code && response.location.calling_code != ""){
+                 document.getElementById('calling_code').value = response.location.calling_code;
 
-//                 }
-//             }
-//         });
-//       }, 1000);
+                }
+            }
+        });
+      }, 1000);
         
 
-// });
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  // تهيئة نظام Lazy Loading بعد تحميل DOM
+  initLazyLoading();
+});
+
+function initLazyLoading() {
+  const lazyImages = document.querySelectorAll('.lizzy-loud-img');
+  const loadingClass = 'loading';
+  const loadedClass = 'loaded';
+  const errorClass = 'error';
+  const maxRetries = 5;
+  const retryDelay = 1000; // 1 ثانية بين المحاولات
+
+  // دالة لتحميل الصورة مع إدارة الأخطاء
+  function loadImage(img) {
+    const src = img.getAttribute('data-src');
+    if (!src) return;
+
+    const parent = img.parentElement;
+    parent.classList.add(loadingClass);
+    parent.classList.remove(errorClass);
+
+    img.onload = function() {
+      parent.classList.remove(loadingClass);
+      parent.classList.add(loadedClass);
+      img.removeAttribute('data-src');
+    };
+
+    img.onerror = function() {
+      const currentRetry = parseInt(img.getAttribute('data-error') || 0);
+      
+      if (currentRetry < maxRetries) {
+        img.setAttribute('data-error', currentRetry + 1);
+        setTimeout(() => {
+          img.src = src; // إعادة المحاولة
+        }, retryDelay * (currentRetry + 1)); // زيادة التأخير مع كل محاولة
+      } else {
+        parent.classList.remove(loadingClass);
+        parent.classList.add(errorClass);
+      }
+    };
+
+    img.src = src;
+  }
+
+  // إنشاء Intersection Observer لمراقبة الصور
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          loadImage(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      rootMargin: '100px', // بدء التحميل قبل 100px من وصول الصورة للشاشة
+      threshold: 0.01
+    });
+
+    // مراقبة جميع الصور
+    lazyImages.forEach(function(img) {
+      observer.observe(img);
+    });
+  } else {
+    // Fallback للمتصفحات القديمة - تحميل جميع الصور بعد تأخير
+    setTimeout(function() {
+      lazyImages.forEach(function(img) {
+        loadImage(img);
+      });
+    }, 1000);
+  }
+}
