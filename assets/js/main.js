@@ -531,32 +531,49 @@
     }),
       document
         .getElementById("sidebar")
-        .addEventListener("affix.top.stickySidebar", function () {});
- 
+        .addEventListener("affix.top.stickySidebar", function () {}),
+      setTimeout(function () {
+        document.querySelectorAll(".lizzy-loud-img").forEach(function (e) {
+          e.setAttribute("data-error", 1),
+            (e.src = e.getAttribute("data-src")),
+            (e.onload = function () {
+              e.parentElement.classList.add("loading");
+            }),
+            (e.onerror = function () {
+              parseInt(this.getAttribute("data-error")) < 10 &&
+                (this.setAttribute(
+                  "data-error",
+                  parseInt(this.getAttribute("data-error")) + 1
+                ),
+                (this.src = e.getAttribute("data-src")),
+                (this.onload = function () {
+                  this.parentElement.classList.add("loading");
+                }));
+            });
+        });
+      }, 1e3);
   });
 
 
 
-  $(document).ready(function() {
-      setTimeout(function (){
-        $.ajax({
-            type: 'GET',
-            url: 'get-api/self',
-            data: "",
-            dataType: 'json',
-            beforeSend: function() {
+//   $(document).ready(function() {
+//       setTimeout(function (){
+//         $.ajax({
+//             type: 'GET',
+//             url: 'get-api/self',
+//             data: "",
+//             dataType: 'json',
+//             beforeSend: function() {
              
-            },
-            success: function(response) {
-                if(response && response.location &&  response.location.calling_code && response.location.calling_code != ""){
-                 document.getElementById('calling_code').value = response.location.calling_code;
+//             },
+//             success: function(response) {
+//                 if(response && response.location &&  response.location.calling_code && response.location.calling_code != ""){
+//                  document.getElementById('calling_code').value = response.location.calling_code;
 
-                }
-            }
-        });
-      }, 1000);
+//                 }
+//             }
+//         });
+//       }, 1000);
         
 
-});
-
-
+// });
