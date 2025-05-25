@@ -531,27 +531,8 @@
     }),
       document
         .getElementById("sidebar")
-        .addEventListener("affix.top.stickySidebar", function () {}),
-      setTimeout(function () {
-        document.querySelectorAll(".lizzy-loud-img").forEach(function (e) {
-          e.setAttribute("data-error", 1),
-            (e.src = e.getAttribute("data-src")),
-            (e.onload = function () {
-              e.parentElement.classList.add("loading");
-            }),
-            (e.onerror = function () {
-              parseInt(this.getAttribute("data-error")) < 10 &&
-                (this.setAttribute(
-                  "data-error",
-                  parseInt(this.getAttribute("data-error")) + 1
-                ),
-                (this.src = e.getAttribute("data-src")),
-                (this.onload = function () {
-                  this.parentElement.classList.add("loading");
-                }));
-            });
-        });
-      }, 1e3);
+        .addEventListener("affix.top.stickySidebar", function () {});
+    
   });
 
 
@@ -577,3 +558,24 @@
         
 
 // });
+
+  // setTimeout(function () {
+  //       document.querySelectorAll(".lizzy-loud-img").forEach(function (e) {
+  //         e.setAttribute("data-error", 1),
+  //           (e.src = e.getAttribute("data-src")),
+  //           (e.onload = function () {
+  //             e.parentElement.classList.add("loading");
+  //           }),
+  //           (e.onerror = function () {
+  //             parseInt(this.getAttribute("data-error")) < 10 &&
+  //               (this.setAttribute(
+  //                 "data-error",
+  //                 parseInt(this.getAttribute("data-error")) + 1
+  //               ),
+  //               (this.src = e.getAttribute("data-src")),
+  //               (this.onload = function () {
+  //                 this.parentElement.classList.add("loading");
+  //               }));
+  //           });
+  //       });
+  //     }, 1000);
