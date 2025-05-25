@@ -579,3 +579,94 @@
   //           });
   //       });
   //     }, 1000);
+
+         // $(document).ready(function() {
+          //  $('img').lazyload()
+     //   })
+
+     function lazyLoadImages() {
+    const lazyImages = document.querySelectorAll(".lizzy-loud-img");
+    
+    const imageObserver = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                const e = entry.target;
+                
+                // Start loading the image
+                e.setAttribute("data-error", 1);
+                e.src = e.getAttribute("data-src");
+                
+                e.onload = function() {
+                    e.parentElement.classList.add("loading");
+                    observer.unobserve(e); // Stop observing after load
+                };
+                
+                e.onerror = function() {
+                    if (parseInt(this.getAttribute("data-error")) < 10) {
+                        this.setAttribute(
+                            "data-error", 
+                            parseInt(this.getAttribute("data-error")) + 1
+                        );
+                        this.src = e.getAttribute("data-src");
+                        this.onload = function() {
+                            this.parentElement.classList.add("loading");
+                            observer.unobserve(e); // Stop observing after load
+                        };
+                    } else {
+                        observer.unobserve(e); // Stop observing after max retries
+                    }
+                };
+            }
+        });
+    }, {
+        rootMargin: "100px", // Start loading 100px before the image enters viewport
+        threshold: 0.01
+    });
+
+    lazyImages.forEach(function(img) {
+        imageObserver.observe(img);
+    });
+}
+
+// Initialize lazy loading after DOM is ready
+document.addEventListener("DOMContentLoaded", function() {
+    setTimeout(lazyLoadImages, 1000); // Optional delay
+});
+
+// Fallback for older browsers or if IntersectionObserver is not supported
+if (!('IntersectionObserver' in window)) {
+    setTimeout(function() {
+        document.querySelectorAll(".lizzy-loud-img").forEach(function(e) {
+            e.setAttribute("data-error", 1);
+            e.src = e.getAttribute("data-src");
+            e.onload = function() {
+                e.parentElement.classList.add("loading");
+            };
+            e.onerror = function() {
+                parseInt(this.getAttribute("data-error")) < 10 &&
+                    (this.setAttribute(
+                        "data-error",
+                        parseInt(this.getAttribute("data-error")) + 1
+                    ),
+                    (this.src = e.getAttribute("data-src")),
+                    (this.onload = function() {
+                        this.parentElement.classList.add("loading");
+                    }));
+            };
+        });
+    }, 1000);
+}
+
+     
+
+
+        // show more gallery
+        document.getElementById('buttonLoad').addEventListener('click', function() {
+            var addLoadImage = document.querySelectorAll('.additional');
+            addLoadImage.forEach(function(image) {
+                image.style.display = 'block'
+            });
+
+            let button = document.getElementsByClassName('ajax-loading');
+            this.style.display = 'none'
+        })
