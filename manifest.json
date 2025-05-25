@@ -1,7 +1,7 @@
 {
     "name": "barmgely",
     "short_name": "برمجلي",
-    "start_url": "/",
+    "start_url": "https://www.barmgely.com/",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#acbbee",
